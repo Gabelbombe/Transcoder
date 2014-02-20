@@ -7,15 +7,35 @@
 
 # proto: cd drop ; types=(asf asx avi flv m4v mov mp4 mpg rm swf vob wmv); for i in "${types[@]}"; do touch "video.${i}"; done;
 
-# dectypes
-declare -r fpath=$( cd "$(dirname "$0")/drop" ; pwd -P )
+
+inp="drop"
+out="export"
+
+
+## test for reqs of exit
+for requires in ffmpeg; do
+	hash $requires 2>/dev/null || { 
+		echo >&2 "I require $requires to run but it's not installed.  Aborting."; exit 1; 
+	}
+done
+
+
+
+## dectypes
+declare -r fpath=$( cd "$(dirname "$0")/$inp" ; pwd -P )
 declare -r types="asf\|asx\|avi\|flv\|m4v\|mov\|mp4\|mpg\|ogg\|rm\|swf\|vob\|webm\|wmv"
-declare -r allow="mp4 ogg webm"r
+declare -r allow=( mp4 ogg webm )
+##
 
-	cd $fpath 
+[ '' != "$(ls ${arcdir})" ] && { "$fpath is empty, finished..."; exit 0; }
 
-	for video in $(find . -type f -iregex ".*\(${types}\)" -printf '%P\0 '); do
+	## start video conversion
+	cd $fpath ; for video in $(find . -type f -iregex ".*\(${types}\)" -printf '%P\0 '); do
 
-		echo -e "$video"
+		ext=$(echo $video |awk -NF '.' '{print $2}')
+
+		case "${allow[@]}" in *"$ext"* ) mv "$video" "$fpath/$out/" ; continue ;; esac
+
+		echo -e "$ext"
 
 	done
