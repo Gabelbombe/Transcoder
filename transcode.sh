@@ -50,7 +50,7 @@
             [[ $skip = 2 ]] || { cmds+=("'$video' -b 1500k -vcodec libvpx    -acodec libvorbis -ab   160000   -f webm -g 30  '$name.webm'") ; }
             [[ $skip = 3 ]] || { cmds+=("'$video' -b 1500k -vcodec libtheora -acodec libvorbis -ab   160000   -g 30          '$name.ogg' ") ; }
 
-            echo "${cmds[@]}" | parallel --gnu -j10 ffmpeg -i $fpath/$inp/{/}\;
+            echo "${cmds[@]}" | parallel --gnu -j10 ffmpeg -i $fpath/$inp/{};
 
             for ext in "${allow[@]}"; do
                 [ -a "${fpath}/${inp}/${name}.{ext}" ] && mv "${fpath}/${inp}/${name}.{ext}" "${fpath}/${out}/"
