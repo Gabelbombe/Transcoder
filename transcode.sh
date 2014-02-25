@@ -49,9 +49,9 @@ cd $fpath ; while IFS= read -r video; do
 
 
     pids=() # pid track if we want to use it later for something
-    [[ $skip = 1 ]] || { ffmpeg -y -i "$inp/$video" -vb 1500k -vcodec libx264 -vpre slow -vpre baseline -g 30 "$out/${name}.mp4" 2> /dev/null & } # \n pid+="$! " # if we're going to do post proc kill work later
-    [[ $skip = 2 ]] || { ffmpeg -y -i "$inp/$video" -vb 1500k -vcodec libvpx -acodec libvorbis -ab 160000 -f webm -g 30 "$out/${name}.webm" 2> /dev/null & }
-    [[ $skip = 3 ]] || { ffmpeg -y -i "$inp/$video" -vb 1500k -vcodec libtheora -acodec libvorbis -ab 160000 -g 30 "$out/${name}.ogg" 2> /dev/null & }
+    [[ $skip = 1 ]] || { ffmpeg -y -i "$inp/$video" -b:v 1500k -c:a copy -vcodec libx264 -preset slow -vprofile baseline -g 30 "$out/${name}.mp4" 2> /dev/null & } # \n pid+="$! " # if we're going to do post proc kill work later
+    [[ $skip = 2 ]] || { ffmpeg -y -i "$inp/$video" -vb 1500k -vcodec libvpx -crf 20 -acodec libvorbis -ab 160000 -f webm -g 30 "$out/${name}.webm" 2> /dev/null & }
+    [[ $skip = 3 ]] || { ffmpeg -y -i "$inp/$video" -vb 1500k -vcodec libtheora -crf 20 -acodec libvorbis -ab 160000 -g 30 "$out/${name}.ogg" 2> /dev/null & }
 
 
     # move out of path
