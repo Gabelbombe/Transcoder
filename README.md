@@ -21,8 +21,9 @@ __WARNING__ this using background tasks and can or will be CPU intensive for lar
 Associated CRONTAB will look something like this
 
 ```
-## CRONTAB
+## CRONTAB ##
 
-* * * * * [ $(ls -1 /some_path/transcoder/drop/*.{asf,asx,avi,flv,m4v,mkv,mov,mp4,mpg,ogg,rm,swf,vob,webm,wmv} 2>/dev/null | wc -l) != 0 ] && bash /{whatever_path}/transcoder.sh
+# m h d m w user	command
+  * * * * * root    [ $(ls -1 /some_path/transcoder/drop/*.{asf,asx,avi,flv,m4v,mkv,mov,mp4,mpg,ogg,rm,swf,vob,webm,wmv} 2>/dev/null | wc -l) != 0 ] && bash /{whatever_path}/transcoder.sh
 ```
 
