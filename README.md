@@ -7,7 +7,7 @@ On the fly transcoder from basic formats to WEBM, OGG and MP4
 Run by using 
 
 ```
-	$ ./transcoder.sh
+$ ./transcoder.sh
 ```
 
 Directory structure should be created on clone, if not directories will autocreate
